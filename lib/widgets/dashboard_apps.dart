@@ -1,4 +1,3 @@
-import 'package:beesupp_frontend_flutter/utilities/device_properties.dart';
 import 'package:beesupp_frontend_flutter/widgets/dashboard_app.dart';
 import 'package:flutter/material.dart';
 
@@ -33,10 +32,10 @@ class DashboardApps extends StatelessWidget {
   Widget build(BuildContext context) {
     var _crossAxisSpacing = 100.0;
     return GridView.builder(
-        padding: EdgeInsets.only(left: 40),
+        padding: const EdgeInsets.only(left: 30, bottom: 50),
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
+          maxCrossAxisExtent: 250,
           childAspectRatio: 3 / 2,
           crossAxisSpacing: _crossAxisSpacing,
           mainAxisSpacing: 20,

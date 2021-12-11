@@ -1,4 +1,4 @@
-import 'package:beesupp_frontend_flutter/widgets/dashboard_appbar.dart';
+import 'package:beesupp_frontend_flutter/utilities/device_properties.dart';
 import 'package:beesupp_frontend_flutter/widgets/dashboard_apps.dart';
 import "package:flutter/material.dart";
 
@@ -7,17 +7,18 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Container(
-        decoration: BoxDecoration(
+    return Scaffold(
+      body: Container(
+        width: DeviceProperties.displayWidth(context),
+        height: DeviceProperties.displayHeight(context),
+        alignment: Alignment.bottomCenter,
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/background.png"),
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
-          child: Column(children: [SizedBox(height: 550), DashboardApps()]),
-        ),
+        child: DashboardApps(),
       ),
     );
   }
