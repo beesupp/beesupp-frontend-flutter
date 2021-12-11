@@ -8,6 +8,7 @@ class JsonParser {
     for (var item in json.values) {
       products.add(Product(
         id: item['id'],
+        category: item['category'],
         title: item['title'],
         description: item['description'],
         price: item['price'],
