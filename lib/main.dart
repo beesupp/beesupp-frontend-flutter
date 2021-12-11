@@ -25,7 +25,13 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: DashboardScreen(),
+      initialRoute: '/',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => DashboardScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        //'/second': (context) => const SecondScreen(),
+      },
     );
   }
 }
