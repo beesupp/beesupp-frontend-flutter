@@ -9,9 +9,14 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Container(
-        color: Colors.red,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
-          child: DashboardApps(),
+          child: Column(children: [SizedBox(height: 550), DashboardApps()]),
         ),
       ),
     );

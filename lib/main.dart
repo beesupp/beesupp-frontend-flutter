@@ -1,4 +1,5 @@
 import 'package:beesupp_frontend_flutter/screens/dashboard_screen.dart';
+import 'package:beesupp_frontend_flutter/screens/marketplace/marketplace_home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => DashboardScreen(),
+        '/marketplace': (context) => MarketplaceHomeScreen(),
         // When navigating to the "/second" route, build the SecondScreen widget.
         //'/second': (context) => const SecondScreen(),
       },

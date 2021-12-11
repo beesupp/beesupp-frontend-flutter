@@ -6,17 +6,34 @@ class DashboardApps extends StatelessWidget {
   DashboardApps({Key? key}) : super(key: key);
 
   final List<Map> myApps = [
-    {"name": "Settings", "image": Image.asset('settings.png')},
-    {"name": "Telefon", "image": Image.asset('phone.png')},
-    {"name": "Navigasyon", "image": Image.asset('navigation.png')},
-    {"name": "Müzik", "image": Image.asset('music.png')},
-    {"name": "Marketplace", "image": Image.asset('marketplace.png')},
+    {
+      "name": "Settings",
+      "image": Image.asset('settings.png'),
+      "routeName": "/settings"
+    },
+    {
+      "name": "Telefon",
+      "image": Image.asset('phone.png'),
+      "routeName": "phone"
+    },
+    {
+      "name": "Navigasyon",
+      "image": Image.asset('navigation.png'),
+      "routeName": "navigation"
+    },
+    {"name": "Müzik", "image": Image.asset('music.png'), "routeName": "/sound"},
+    {
+      "name": "Marketplace",
+      "image": Image.asset('marketplace.png'),
+      "routeName": "/marketplace"
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     var _crossAxisSpacing = 100.0;
     return GridView.builder(
+        padding: EdgeInsets.only(left: 40),
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
@@ -27,7 +44,10 @@ class DashboardApps extends StatelessWidget {
         itemCount: myApps.length,
         itemBuilder: (BuildContext ctx, index) {
           return DashboardApp(
-              name: myApps[index]['name'], image: myApps[index]['image']);
+            name: myApps[index]['name'],
+            image: myApps[index]['image'],
+            routeName: myApps[index]['routeName'],
+          );
         });
   }
 }
