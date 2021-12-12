@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:beesupp_frontend_flutter/communications/product_communication.dart';
+import 'package:beesupp_frontend_flutter/constants/categories.dart';
 import 'package:beesupp_frontend_flutter/constants/constant_colors.dart';
 import 'package:beesupp_frontend_flutter/constants/constants.dart';
+import 'package:beesupp_frontend_flutter/widgets/marketplace/my_products.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -18,30 +21,29 @@ class MarketplaceHomeScreen extends StatefulWidget {
 }
 
 class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
-  static Future<List<Product>> getProducts() async {
-    final response = await http.get(Uri.parse(ConstantLinks.getProductUrl));
-
-    if (response.statusCode == 200) {
-      List<Product> itemlist = [];
-      var v = json.decode(response.body)['items'];
-      for (var item in v) {
-        itemlist.add(Product.fromJson(item));
-      }
-      return itemlist;
-    } else {
-      throw Exception('Failed to load campaigns');
-    }
-  }
-
   late Future<List<Product>> futureProduct;
+  List<Product> _product_list = [];
+  List<Product> _shown_product_list = [];
+  String default_category = Categories.themes;
+
   @override
   void initState() {
     super.initState();
-    //futureProduct = fetchProducts();
   }
 
-  void add() {
-    setState(() {});
+  void setShownProduct(String category) {
+    setState(() {
+      default_category = category;
+      _shown_product_list = productByCategory(category: category);
+      _product_list = _shown_product_list;
+    });
+  }
+
+  List<Product> productByCategory({String category = ""}) {
+    if (category == "") {
+      return _product_list;
+    }
+    return _product_list.where((i) => i.category == category).toList();
   }
 
   @override
@@ -52,7 +54,9 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
       onPanUpdate: (details) {
         // Swiping in right direction.
         if (details.delta.dx > 0) {
-          Navigator.pop(context);
+          Navigator.of(context).pushNamed("/").then((value) {
+            print("do stuff");
+          });
         }
 
         // Swiping in left direction.
@@ -69,19 +73,28 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
                     height: height * 0.1,
                     width: width,
                     child: Row(children: [
-                      Container(
-                        width: 120,
-                        height: 40,
-                        margin: EdgeInsets.only(left: 25),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: ConstColors.category_backgorund_color,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: const Text(
-                          "My Products",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyProducts()),
+                          );
+                        },
+                        child: Container(
+                          width: 120,
+                          height: 40,
+                          margin: EdgeInsets.only(left: 25),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: ConstColors.category_backgorund_color,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: const Text(
+                            "My Products",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
                         ),
                       ),
                       Container(
@@ -96,28 +109,31 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
                     ]),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 20),
+                    margin: const EdgeInsets.only(bottom: 20),
                     height: height * 0.1,
                     width: width,
                     alignment: Alignment.topCenter,
                     child: MarketPlaceCategories(
-                      func: add,
+                      func: setShownProduct,
                     ),
                   ),
                   Expanded(
                       child: FutureBuilder<List<Product>>(
-                          future: getProducts(),
+                          future: ProductCommunication.getProducts(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
+                              _product_list = snapshot.data!;
+                              _shown_product_list =
+                                  productByCategory(category: default_category);
                               return MarketPlaceProducts(
-                                  products: snapshot.data!);
+                                  text: "Satın Al", products: snapshot.data!);
                             } else if (snapshot.hasError) {
                               return Text('${snapshot.error}');
                             }
 
                             // By default, show a loading spinner.
                             return const Center(
-                                child: const CircularProgressIndicator());
+                                child: CircularProgressIndicator());
                           }))
                 ],
               ))),

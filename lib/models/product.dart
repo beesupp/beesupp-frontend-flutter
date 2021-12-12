@@ -10,7 +10,7 @@ class Product with ChangeNotifier {
   final String title;
   final String description;
   final double price;
-  //final Image image;
+  final String image_path;
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -19,7 +19,7 @@ class Product with ChangeNotifier {
       title: json['title'] as String,
       description: json['description'] as String,
       price: double.parse(json['price']),
-      //image: Image.memory(base64.decode(json['image'])),
+      image_path: 'assets/' + json['image'],
     );
   }
 
@@ -29,6 +29,6 @@ class Product with ChangeNotifier {
     required this.title,
     required this.description,
     required this.price,
-    //required this.image,
+    required this.image_path,
   });
 }

@@ -1,10 +1,11 @@
+import 'package:beesupp_frontend_flutter/constants/categories.dart';
 import 'package:beesupp_frontend_flutter/constants/constant_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class MarketPlaceCategories extends StatelessWidget {
-  final Function func;
+  final void Function(String) func;
   MarketPlaceCategories({Key? key, required this.func}) : super(key: key);
 
   List<String> categories = ["Themes", "Features", "NFTs"];
@@ -16,7 +17,7 @@ class MarketPlaceCategories extends StatelessWidget {
         Expanded(
           child: InkWell(
             onTap: () {
-              func();
+              func(Categories.themes);
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
@@ -34,7 +35,9 @@ class MarketPlaceCategories extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              func(Categories.features);
+            },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               alignment: Alignment.center,
@@ -51,7 +54,9 @@ class MarketPlaceCategories extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              func(Categories.nfts);
+            },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               alignment: Alignment.center,
