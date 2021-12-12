@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:beesupp_frontend_flutter/communications/product_communication.dart';
 import 'package:beesupp_frontend_flutter/constants/categories.dart';
-import 'package:beesupp_frontend_flutter/constants/constant_colors.dart';
-import 'package:beesupp_frontend_flutter/constants/constants.dart';
+import 'package:beesupp_frontend_flutter/utilities/theme_settings.dart';
 import 'package:beesupp_frontend_flutter/widgets/marketplace/my_products.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -43,6 +41,7 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
     if (category == "") {
       return _product_list;
     }
+
     return _product_list.where((i) => i.category == category).toList();
   }
 
@@ -54,9 +53,7 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
       onPanUpdate: (details) {
         // Swiping in right direction.
         if (details.delta.dx > 0) {
-          Navigator.of(context).pushNamed("/").then((value) {
-            print("do stuff");
-          });
+          Navigator.of(context).pushNamed("/").then((value) {});
         }
 
         // Swiping in left direction.
@@ -87,7 +84,10 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
                           margin: EdgeInsets.only(left: 25),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: ConstColors.category_backgorund_color,
+                              image: DecorationImage(
+                                image: AssetImage(ThemeSetting.default_bg),
+                                fit: BoxFit.cover,
+                              ),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
                           child: const Text(
@@ -101,7 +101,7 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
                         margin: EdgeInsets.only(left: width * 0.33),
                         alignment: Alignment.center,
                         child: const Text(
-                          "Merecedes App",
+                          "Mercedes App",
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 25, color: Colors.white),
                         ),
@@ -119,14 +119,14 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
                   ),
                   Expanded(
                       child: FutureBuilder<List<Product>>(
-                          future: ProductCommunication.getProducts(),
+                          future: ProductCommunication.getMarketPlaceProducts(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               _product_list = snapshot.data!;
                               _shown_product_list =
                                   productByCategory(category: default_category);
                               return MarketPlaceProducts(
-                                  text: "Satın Al", products: snapshot.data!);
+                                  text: "Buy", products: _shown_product_list);
                             } else if (snapshot.hasError) {
                               return Text('${snapshot.error}');
                             }

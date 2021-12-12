@@ -14,27 +14,6 @@ class MyProducts extends StatefulWidget {
 }
 
 class _MyProductsState extends State<MyProducts> {
-  // List<Product> myApps = [
-  //   Product(
-  //       id: 1,
-  //       category: "cate",
-  //       title: "title",
-  //       description: "description",
-  //       price: 10),
-  //   Product(
-  //       id: 1,
-  //       category: "cate",
-  //       title: "title",
-  //       description: "description",
-  //       price: 10),
-  //   Product(
-  //       id: 1,
-  //       category: "cate",
-  //       title: "title",
-  //       description: "description",
-  //       price: 10),
-  // ];
-
   List<Product> _product_list = [];
   List<Product> _shown_product_list = [];
   String default_category = Categories.themes;
@@ -66,34 +45,37 @@ class _MyProductsState extends State<MyProducts> {
         if (details.delta.dx < 0) {}
       },
       child: Scaffold(
-          body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.all(25),
-            height: height * 0.1,
-            width: width,
-            alignment: Alignment.topCenter,
-            child: MarketPlaceCategories(
-              func: setShownProduct,
+          body: Container(
+        color: Colors.blueGrey,
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(25),
+              height: height * 0.1,
+              width: width,
+              alignment: Alignment.topCenter,
+              child: MarketPlaceCategories(
+                func: setShownProduct,
+              ),
             ),
-          ),
-          Expanded(
-              child: FutureBuilder<List<Product>>(
-                  future: ProductCommunication.getProducts(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return MarketPlaceProducts(
-                        products: snapshot.data!,
-                        text: "Uygula",
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
+            Expanded(
+                child: FutureBuilder<List<Product>>(
+                    future: ProductCommunication.getUserProducts(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return MarketPlaceProducts(
+                          products: snapshot.data!,
+                          text: "Apply",
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
 
-                    // By default, show a loading spinner.
-                    return const Center(child: CircularProgressIndicator());
-                  }))
-        ],
+                      // By default, show a loading spinner.
+                      return const Center(child: CircularProgressIndicator());
+                    }))
+          ],
+        ),
       )),
     );
   }

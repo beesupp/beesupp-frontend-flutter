@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:beesupp_frontend_flutter/constants/constants.dart';
 import 'package:beesupp_frontend_flutter/models/product.dart';
+import 'package:beesupp_frontend_flutter/screens/car_interior_screen.dart';
 import 'package:beesupp_frontend_flutter/utilities/theme_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,32 +26,40 @@ class _MarketPlaceProductsState extends State<MarketPlaceProducts> {
 
   Future<dynamic>? _futureBool;
 
-  Future<dynamic> buyProduct(String title) async {
+  Future<dynamic> buyProduct(String title, Product product) async {
     final response = await http.post(
       Uri.parse(ConstantLinks.buyProduct),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        'title': title,
+        'buy_item_name': title,
       }),
     );
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return new AlertDialog(
-              title: Text("Good Products"),
-              content: Text("Congratulations"),
-            );
-          });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CarInteriorScreen(
+                  product: product,
+                )),
+      );
+      return;
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      return false;
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            title: Text("Unfortunately"),
+            content: Text("Something is wrong!"),
+          );
+        },
+      );
     }
   }
 
@@ -96,11 +105,24 @@ class _MarketPlaceProductsState extends State<MarketPlaceProducts> {
                       borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: TextButton(
                     onPressed: () {
-                      if (widget.text == "Uygula") {
-                        ThemeSetting.theme_image =
-                            widget.products[index].image_path;
+                      if (widget.text == "Apply") {
+                        if (widget.products[index].title == "Default") {
+                          ThemeSetting.theme_bg = ThemeSetting.default_bg;
+                          ThemeSetting.theme_main = ThemeSetting.default_main;
+                          ThemeSetting.theme_inside =
+                              ThemeSetting.default_inside;
+                        } else if (widget.products[index].title == "Sport") {
+                          ThemeSetting.theme_bg = ThemeSetting.sport_bg;
+                          ThemeSetting.theme_main = ThemeSetting.sport_main;
+                          ThemeSetting.theme_inside = ThemeSetting.sport_inside;
+                        } else if (widget.products[index].title == "Star") {
+                          ThemeSetting.theme_bg = ThemeSetting.star_bg;
+                          ThemeSetting.theme_main = ThemeSetting.star_main;
+                          ThemeSetting.theme_inside = ThemeSetting.star_inside;
+                        }
                       } else {
-                        buyProduct(widget.products[index].title);
+                        buyProduct(widget.products[index].title,
+                            widget.products[index]);
                       }
                     },
                     child: Text(widget.text),

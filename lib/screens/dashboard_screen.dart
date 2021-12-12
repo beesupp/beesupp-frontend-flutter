@@ -11,8 +11,6 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-String _theme_image = ThemeSetting.theme_image;
-
 class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> readySharedPreferences() async {
     var sharedPreferences = await SharedPreferences.getInstance();
@@ -26,7 +24,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    _theme_image = ThemeSetting.theme_image;
     readySharedPreferences();
   }
 
@@ -48,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(ThemeSetting.theme_image),
+            image: AssetImage(ThemeSetting.theme_main),
             fit: BoxFit.cover,
           ),
         ),

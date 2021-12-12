@@ -11,6 +11,7 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String image_path;
+  final String owner_name;
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -20,6 +21,7 @@ class Product with ChangeNotifier {
       description: json['description'] as String,
       price: double.parse(json['price']),
       image_path: 'assets/' + json['image'],
+      owner_name: json['owner_name'] as String,
     );
   }
 
@@ -30,5 +32,6 @@ class Product with ChangeNotifier {
     required this.description,
     required this.price,
     required this.image_path,
+    required this.owner_name,
   });
 }

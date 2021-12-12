@@ -1,5 +1,4 @@
 import 'package:beesupp_frontend_flutter/models/product.dart';
-import 'package:flutter/cupertino.dart';
 
 class JsonParser {
   static List<Product> getListOfProduct(Map<String, dynamic> json) {
@@ -7,12 +6,14 @@ class JsonParser {
     for (var item in json.values) {
       products.add(
         Product(
-            id: item['id'],
-            category: item['category'],
-            title: item['title'],
-            description: item['description'],
-            price: double.parse(item['price']),
-            image_path: 'assets/' + json['image']),
+          owner_name: item['owner_name'] as String,
+          id: item['id'],
+          category: item['category'],
+          title: item['title'],
+          description: item['description'],
+          price: double.parse(item['price']),
+          image_path: 'assets/' + item['image'],
+        ),
       );
     }
     return products;

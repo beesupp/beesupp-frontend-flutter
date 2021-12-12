@@ -70,6 +70,16 @@ flutter:
         - assets/radio.png
         - assets/profile.png
         - assets/profile_2.png
+        - assets/default_bg.png
+        - assets/default_inside.png
+        - assets/default_main.png
+        - assets/sport_bg.png
+        - assets/sport_inside.png
+        - assets/sport_main.png
+        - assets/star_bg.png
+        - assets/star_inside.png
+        - assets/star_main.png
+        
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

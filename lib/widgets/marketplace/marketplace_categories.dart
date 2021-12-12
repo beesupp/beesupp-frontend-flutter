@@ -8,8 +8,6 @@ class MarketPlaceCategories extends StatelessWidget {
   final void Function(String) func;
   MarketPlaceCategories({Key? key, required this.func}) : super(key: key);
 
-  List<String> categories = ["Themes", "Features", "NFTs"];
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,7 +24,7 @@ class MarketPlaceCategories extends StatelessWidget {
                   color: ConstColors.category_backgorund_color,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Text(
-                categories[0],
+                Categories.themes,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
@@ -45,7 +43,7 @@ class MarketPlaceCategories extends StatelessWidget {
                   color: ConstColors.category_backgorund_color,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Text(
-                categories[1],
+                Categories.features,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
@@ -64,7 +62,7 @@ class MarketPlaceCategories extends StatelessWidget {
                   color: ConstColors.category_backgorund_color,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Text(
-                categories[2],
+                Categories.nfts,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
