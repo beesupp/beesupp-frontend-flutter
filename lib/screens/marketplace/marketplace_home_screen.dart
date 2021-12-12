@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:beesupp_frontend_flutter/constants/constant_colors.dart';
-import 'package:beesupp_frontend_flutter/utilities/json_parser.dart';
+import 'package:beesupp_frontend_flutter/constants/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:beesupp_frontend_flutter/models/product.dart';
 import 'package:beesupp_frontend_flutter/utilities/device_properties.dart';
 import 'package:beesupp_frontend_flutter/widgets/marketplace/marketplace_categories.dart';
 import 'package:beesupp_frontend_flutter/widgets/marketplace/marketplace_products.dart';
-import 'package:flutter/material.dart';
 
 class MarketplaceHomeScreen extends StatefulWidget {
   MarketplaceHomeScreen({Key? key}) : super(key: key);
@@ -16,18 +18,18 @@ class MarketplaceHomeScreen extends StatefulWidget {
 }
 
 class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
-  Future<List<Product>> fetchProduct() async {
-    final response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+  static Future<List<Product>> getProducts() async {
+    final response = await http.get(Uri.parse(ConstantLinks.getProductUrl));
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return JsonParser.getListOfProduct(jsonDecode(response.body));
+      List<Product> itemlist = [];
+      var v = json.decode(response.body)['items'];
+      for (var item in v) {
+        itemlist.add(Product.fromJson(item));
+      }
+      return itemlist;
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load campaigns');
     }
   }
 
@@ -35,7 +37,7 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
   @override
   void initState() {
     super.initState();
-    futureProduct = fetchProduct();
+    //futureProduct = fetchProducts();
   }
 
   void add() {
@@ -102,18 +104,21 @@ class _MarketplaceHomeScreenState extends State<MarketplaceHomeScreen> {
                       func: add,
                     ),
                   ),
-                  Expanded(child: FutureBuilder<List<Product>>(
-                      builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return MarketPlaceProducts(products: snapshot.data!);
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
-                    }
+                  Expanded(
+                      child: FutureBuilder<List<Product>>(
+                          future: getProducts(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return MarketPlaceProducts(
+                                  products: snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
 
-                    // By default, show a loading spinner.
-                    return const Center(
-                        child: const CircularProgressIndicator());
-                  }))
+                            // By default, show a loading spinner.
+                            return const Center(
+                                child: const CircularProgressIndicator());
+                          }))
                 ],
               ))),
     );

@@ -23,7 +23,8 @@ class MarketPlaceProducts extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: products[index].image,
+                //child: products[index].image,
+                child: Text("asdasdsa"),
               ),
               const SizedBox(
                 height: 10,

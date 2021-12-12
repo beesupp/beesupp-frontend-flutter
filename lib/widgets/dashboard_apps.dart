@@ -6,21 +6,17 @@ class DashboardApps extends StatelessWidget {
 
   final List<Map> myApps = [
     {
-      "name": "Settings",
-      "image": Image.asset('settings.png'),
-      "routeName": "/settings"
-    },
-    {
-      "name": "Telefon",
-      "image": Image.asset('phone.png'),
-      "routeName": "phone"
-    },
-    {
-      "name": "Navigasyon",
+      "name": "Navigation",
       "image": Image.asset('navigation.png'),
-      "routeName": "navigation"
+      "routeName": "/navigation"
     },
-    {"name": "Müzik", "image": Image.asset('music.png'), "routeName": "/sound"},
+    {"name": "EQ", "image": Image.asset('eq.png'), "routeName": "/eq"},
+    {
+      "name": "Car Info",
+      "image": Image.asset('car_info.png'),
+      "routeName": "/car_info"
+    },
+    {"name": "Radio", "image": Image.asset('radio.png'), "routeName": "/radio"},
     {
       "name": "Marketplace",
       "image": Image.asset('marketplace.png'),

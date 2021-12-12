@@ -11,8 +11,8 @@ class JsonParser {
         category: item['category'],
         title: item['title'],
         description: item['description'],
-        price: item['price'],
-        image: ImageHelper.imageFromBase64String(item['image']),
+        price: double.parse(item['price']),
+        //image: ImageHelper.imageFromBase64String(item['image']),
       ));
     }
     return products;
